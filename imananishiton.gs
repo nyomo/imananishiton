@@ -21,9 +21,24 @@ Imananishiton.prototype = {
   nanishiton: function() {
     var events = this.getCurrentEvents()
     var message = this.createStatusMessage(events[0])
-    var emoji = this.createStatusEmoji(events[0])
-    this.changeSlackStatus(message, emoji)
-  },
+    var status = [
+      CalendarApp.GuestStatus.OWNER,
+      CalendarApp.GuestStatus.YES,
+      CalendarApp.GuestStatus.MAYBE,
+      CalendarApp.GuestStatus.INVITED
+    ]
+    var filtered_events = events.filter(function(e) {
+      return (status.indexOf(e.getMyStatus()) >= 0)
+    })
+    if(filtered_events.length == 0){
+      this.changeSlackStatus("", "")
+    }
+    filtered_events.forEach(function(filtered_event){
+      var message = this.createStatusMessage(filtered_event)
+      var emoji = this.createStatusEmoji(message,filtered_event)
+      this.changeSlackStatus(this.inEventMessagePrefix + message, emoji)
+    },this)
+ },
   getCurrentEvents: function() {
     var start = new Date()
     var end = new Date(start.getTime() + 60 * 1000)
