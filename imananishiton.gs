@@ -73,14 +73,17 @@ Imananishiton.prototype = {
   isPrivateEvent: function(event) {
     return event.getVisibility() !== CalendarApp.Visibility.DEFAULT
   },
+  isAlldayEvent:function(event) {
+    return event.isAllDayEvent()
+  },
   getEventSchedule: function(event) {
     return {
       start: Utilities.formatDate(event.getStartTime(), 'Asia/Tokyo', 'HH:mm'),
       end: Utilities.formatDate(event.getEndTime(), 'Asia/Tokyo', 'HH:mm'),
     }
   },
-  createStatusEmoji: function(event) {
-    if (!event || this.isPrivateEvent(event)) {
+  createStatusEmoji: function(message,event) {
+    if (!event || this.isPrivateEvent(event)|| this.isAlldayEvent(event)) {
       return this.noEventEmoji
     } else {
       if(message.slice(message,3) == "[休]"){
