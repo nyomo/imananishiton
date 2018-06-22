@@ -56,7 +56,7 @@ Imananishiton.prototype = {
     if (!event || this.isPrivateEvent(event)) {
       return this.noEventMessage
     }
-    var message = 'カレンダー予定：' + event.getTitle()
+    var message =  event.getTitle()
     if (event.getLocation() !== '') {
       if (event.getLocation().length > 20) {
         message += ' @ ' + event.getLocation().substr(0, 20) + '...'
@@ -83,7 +83,11 @@ Imananishiton.prototype = {
     if (!event || this.isPrivateEvent(event)) {
       return this.noEventEmoji
     } else {
-      return this.inEventEmoji
+      if(message.slice(message,3) == "[休]"){
+         return ':yasumi:'
+      }else{
+         return this.inEventEmoji
+      }
     }
   },
   changeSlackStatus: function(message, emoji) {
