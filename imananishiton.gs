@@ -2,16 +2,19 @@ function myFunction() {
   var email = 'xxxxx'
   var token = 'xxxxx'
   var inEventEmoji = ':date:'
-  var noEventEmoji = ':smile:'
-  var ima = new Imananishiton(email, token, inEventEmoji, noEventEmoji)
+  var inEventMessagePrefix = '' //'カレンダー予定:'とか書く
+  var noEventEmoji = ':satisfied:' // 予定が無いか限定公開の場合に表示する emoji
+  var noEventMessage = 'わーわー' // 予定が無いか限定公開の場合に表示するメッセージ
+  var ima = new Imananishiton(email, token, inEventEmoji, noEventEmoji,inEventMessagePrefix,noEventMessage)
   ima.nanishiton()
 }
-
-var Imananishiton = function(email, token, inEventEmoji, noEventEmoji) {
+var Imananishiton = function(email, token, inEventEmoji, noEventEmoji,inEventMessagePrefix,noEventMessage) {
     this.email = email
     this.token = token
     this.inEventEmoji = inEventEmoji
     this.noEventEmoji = noEventEmoji
+    this.inEventMessagePrefix = inEventMessagePrefix
+    this.noEventMessage = noEventMessage
 }
 
 Imananishiton.prototype = {
@@ -36,7 +39,7 @@ Imananishiton.prototype = {
   },
   createStatusMessage: function(event) {
     if (!event || this.isPrivateEvent(event)) {
-      return 'カレンダー予定：予定なし'
+      return this.noEventMessage
     }
     var message = 'カレンダー予定：' + event.getTitle()
     if (event.getLocation() !== '') {
