@@ -99,7 +99,7 @@ Imananishiton.prototype = {
       }else if(message.slice(0,4) == "在宅勤務"){
          return ':house:'
       }else if(message.slice(0,3) == "[帰]"){
-         return ':crecent_moon:'
+         return ':crescent_moon:'
       }else{
          return this.inEventEmoji
       }
