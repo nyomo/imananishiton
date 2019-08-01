@@ -5,6 +5,7 @@ function myFunction() {
   var inEventMessagePrefix = '' //'カレンダー予定:'とか書く
   var noEventEmoji = ':satisfied:' // 予定が無いか限定公開の場合に表示する emoji
   var noEventMessage = 'わーわー' // 予定が無いか限定公開の場合に表示するメッセージ
+  var offDayEmoji = ':yasumi:'
   var ima = new Imananishiton(email, token, inEventEmoji, noEventEmoji,inEventMessagePrefix,noEventMessage,offDayEmoji)
   ima.nanishiton()
 }
@@ -48,7 +49,6 @@ Imananishiton.prototype = {
     return events.sort(this.compareSchedule)
   },
   compareSchedule: function(first, second) {
-  Logger.log(second);
     if ((first.isAllDayEvent() && second.isAllDayEvent()) || first.getStartTime() === second.getStartTime()) { return 0 }
     if (second.isAllDayEvent()) { return -1 }
     if (first.isAllDayEvent()) { return 1 }
@@ -73,7 +73,7 @@ Imananishiton.prototype = {
     return message + '【' + schedule['start'] + ' ～ ' + schedule['end'] + '】'
   },
   isPrivateEvent: function(event) {
-    return event.getVisibility() !== CalendarApp.Visibility.DEFAULT
+    return event.getVisibility() !== CalendarApp.Visibility.DEFAULT && event.getVisibility() !== CalendarApp.Visibility.PUBLIC
   },
   isAlldayEvent:function(event) {
     return event.isAllDayEvent()
